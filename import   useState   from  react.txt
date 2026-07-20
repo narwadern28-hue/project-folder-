@@ -1,0 +1,206 @@
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  ChevronDown,
+} from "lucide-react";
+import Reveal from "../components/Reveal";
+import SectionHeading from "../components/SectionHeading";
+import ConsultationForm from "../components/ConsultationForm";
+import { faqs, studio } from "../lib/data";
+import { InstagramIcon, PinterestIcon } from "../components/icons";
+
+const contactMethods = [
+  {
+    icon: Phone,
+    label: "Call the studio",
+    value: studio.phone,
+    href: studio.phoneHref,
+    note: "Fastest for site visits and urgent timelines.",
+  },
+  {
+    icon: Mail,
+    label: "Write to us",
+    value: studio.email,
+    href: studio.emailHref,
+    note: "Floor plans welcome; we reply within one working day.",
+  },
+  {
+    icon: MapPin,
+    label: "Visit the studio",
+    value: studio.address,
+    note: "Material library and workshop samples on view.",
+  },
+  {
+    icon: Clock,
+    label: "Studio hours",
+    value: studio.hours,
+    note: "Site visits across Delhi NCR, Jaipur & Chandigarh.",
+  },
+];
+
+export default function Contact() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  return (
+    <>
+      {/* Header */}
+      <section className="border-b rule bg-linen/70">
+        <div className="mx-auto max-w-7xl px-5 pb-14 pt-16 sm:px-8 md:pt-20">
+          <Reveal>
+            <p className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.28em] text-terracotta">
+              <span className="h-px w-8 bg-brass" aria-hidden="true" />
+              Contact
+            </p>
+            <h1 className="mt-5 max-w-3xl font-display text-4xl leading-[1.08] font-medium tracking-tight text-balance sm:text-5xl lg:text-6xl">
+              Tell us about{" "}
+              <em className="font-light text-terracotta italic">your space.</em>
+            </h1>
+            <p className="mt-5 max-w-xl leading-relaxed text-espresso/65">
+              A bare shell, a tired apartment, a café with a six-month lease
+              clock — we have begun with less. The first conversation costs
+              nothing and commits you to nothing.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Contact grid */}
+      <section className="scroll-mt-24 py-16 md:py-24" id="consultation">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-5 lg:gap-16">
+          <div className="lg:col-span-2">
+            <div className="space-y-5">
+              {contactMethods.map((m, i) => {
+                const Icon = m.icon;
+                const inner = (
+                  <>
+                    <span className="grid h-12 w-12 shrink-0 place-items-center border rule text-brass transition-colors group-hover:border-brass">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span>
+                      <span className="block text-[0.64rem] font-semibold uppercase tracking-[0.22em] text-espresso/50">
+                        {m.label}
+                      </span>
+                      <span className="mt-1 block text-[0.95rem] font-medium leading-snug text-espresso">
+                        {m.value}
+                      </span>
+                      <span className="mt-1 block text-xs leading-relaxed text-espresso/50">
+                        {m.note}
+                      </span>
+                    </span>
+                  </>
+                );
+                return (
+                  <Reveal key={m.label} delay={i * 0.07}>
+                    {m.href ? (
+                      <a
+                        href={m.href}
+                        className="group flex items-start gap-5 border rule bg-[#FBF7EF] p-5 transition-colors hover:border-brass/60"
+                      >
+                        {inner}
+                      </a>
+                    ) : (
+                      <div className="group flex items-start gap-5 border rule bg-[#FBF7EF] p-5">
+                        {inner}
+                      </div>
+                    )}
+                  </Reveal>
+                );
+              })}
+            </div>
+
+            <Reveal delay={0.2}>
+              <div className="mt-8 flex items-center gap-4 border rule bg-espresso px-5 py-4 text-ivory">
+                <span className="text-[0.7rem] uppercase tracking-[0.22em] text-ivory/55">
+                  Follow the studio
+                </span>
+                <span className="h-4 w-px bg-ivory/20" aria-hidden="true" />
+                <a
+                  href={studio.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                  className="grid h-9 w-9 place-items-center border rule-light transition-colors hover:border-brass hover:text-brass"
+                >
+                  <InstagramIcon className="h-3.5 w-3.5" />
+                </a>
+                <a
+                  href={studio.pinterest}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Pinterest"
+                  className="grid h-9 w-9 place-items-center border rule-light transition-colors hover:border-brass hover:text-brass"
+                >
+                  <PinterestIcon className="h-3.5 w-3.5" />
+                </a>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.1} className="lg:col-span-3">
+            <ConsultationForm />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="border-t rule bg-linen/70 py-16 md:py-24">
+        <div className="mx-auto grid max-w-5xl gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.6fr]">
+          <SectionHeading
+            eyebrow="Before You Ask"
+            title="A few things clients ask first."
+            copy="If your question is not here, call the studio — a designer, not a receptionist, picks up."
+          />
+
+          <div>
+            {faqs.map((f, i) => {
+              const open = openFaq === i;
+              return (
+                <Reveal key={f.question} delay={i * 0.05}>
+                  <div className="border-b rule">
+                    <button
+                      onClick={() => setOpenFaq(open ? null : i)}
+                      aria-expanded={open}
+                      className="flex w-full items-center justify-between gap-6 py-6 text-left"
+                    >
+                      <span
+                        className={`font-display text-lg font-medium tracking-tight transition-colors sm:text-xl ${
+                          open ? "text-terracotta" : "text-espresso"
+                        }`}
+                      >
+                        {f.question}
+                      </span>
+                      <ChevronDown
+                        className={`h-4 w-4 shrink-0 text-brass transition-transform duration-300 ${
+                          open ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {open && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <p className="pb-7 pr-10 text-sm leading-[1.85] text-espresso/65">
+                            {f.answer}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
