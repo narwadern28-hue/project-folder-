@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #F5F0E8;
+  --color-linen: #EDE5D6;
+  --color-sand: #DCD1BB;
+  --color-espresso: #2C2420;
+  --color-cocoa: #3C332C;
+  --color-ink: #1E1814;
+  --color-brass: #B8894F;
+  --color-brass-deep: #9A6E3B;
+  --color-terracotta: #A85C42;
+  --color-clay: #8A4732;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ivory text-espresso font-sans antialiased;
+}
+
+::selection {
+  background: #B8894F;
+  color: #F5F0E8;
+}
+
+/* Subtle film-grain texture for hero / dark bands */
+.grain {
+  position: relative;
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+/* Hairline utility for editorial rules */
+.rule {
+  border-color: rgb(44 36 32 / 0.14);
+}
+.rule-light {
+  border-color: rgb(245 240 232 / 0.16);
+}
+
+/* Article (journal) typography */
+.article p {
+  @apply text-espresso/80 leading-[1.85] text-[1.05rem] mb-6;
+}
+.article h2 {
+  @apply font-display text-2xl md:text-3xl font-medium mt-12 mb-5 tracking-tight;
+}
+.article blockquote {
+  @apply border-l-2 border-brass pl-6 my-10 font-display italic text-xl md:text-2xl leading-relaxed text-espresso;
+}
+
+/* Hide scrollbars for horizontal chip rows */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
